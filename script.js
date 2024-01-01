@@ -70,10 +70,23 @@ class UI {
                     cart = [...cart, cartItem];
                     // * save cart in localStorage
                     Storage.saveCart(cart);
+                    // * save cart values
+                    this.saveCartValues(cart);
                 })
             }
         });
 
+    }
+
+    saveCartValues(cart) {
+        let tempTotal = 0;
+        let itemsTotal = 0;
+        cart.map(item => {
+            tempTotal += item.price * item.amount;
+            itemsTotal += item.amount;
+        })
+        cartTotal.innerHTML = parseFloat(tempTotal.toFixed(2));
+        cartItems.innerHTML = itemsTotal;
     }
 }
 
