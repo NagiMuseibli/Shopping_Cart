@@ -130,6 +130,52 @@ class UI {
         cartBtn.click();
     }
 
+    setupAPP() {
+        cart = Storage.getCart();
+        this.saveCartValues(cart);
+        this.populateCart(cart);
+    }
+
+    populateCart(cart) {
+        cart.forEach(item => this.addCartItem(item));
+    }
+
+    cartLogic() {
+        clearBtn.addEventListener('click', () => {
+            this.clearCart();
+        });
+
+        cartContent.addEventListener('click', event => {
+            if (event.target.classList.contains("cart-remove-btn")) {
+                let removeItem = event.target;
+                let id = removeItem.dataset.id;
+                removeItem.parentElement.parentElement.parentElement.remove();
+                this.removeItem(id);
+                // console.log(removeItem);
+            }
+        })
+    }
+
+    clearCart() {
+        let cartItems = cart.map(item => item.id);
+        cartItems.forEach(id => this.removeItem(id));
+        while (cartContent.children.length > 0) {
+            cartContent.removeChild(cartContent.children[0])
+        }
+    }
+
+    removeItem(id) {
+        cart = cart.filter(item => item.id !== id);
+        this.saveCartValues(cart);
+        Storage.saveCart(cart);
+        let button = this.getSingleButton(id);
+        button.disabled = false;
+        button.style.opacity = 1;
+    }
+
+    getSingleButton(id) {
+        return buttonsDOM.find(button => button.dataset.id === id);
+    }
 }
 
 class Storage {
@@ -145,19 +191,24 @@ class Storage {
     static saveCart(cart) {
         localStorage.setItem("cart", JSON.stringify(cart));
     }
+
+    static getCart() {
+        return localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [];
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
 
     const ui = new UI();
-
     const products = new Products();
+    ui.setupAPP();
     products.getProducts()
         .then((products) => {
             ui.displayProducts(products);
             Storage.savePoducts(products);
         }).then((buttons) => {
             ui.getBagButtons();
+            ui.cartLogic();
         })
 
 
