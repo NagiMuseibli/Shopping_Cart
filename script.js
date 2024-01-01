@@ -156,11 +156,11 @@ class UI {
                 let lowerAmount = event.target;
                 let id = lowerAmount.dataset.id;
                 let tempItem = cart.find(item => item.id === id);
-                tempItem = tempItem.amount - 1;
+                tempItem.amount = tempItem.amount - 1;
                 if (tempItem.amount > 0) {
                     Storage.saveCart(cart);
                     this.saveCartValues(cart);
-                    lowerAmount = nextElementSibling.innerText = tempItem.amount;
+                    lowerAmount.nextElementSibling.innerText = tempItem.amount;
                 } else {
                     lowerAmount.parentElement.parentElement.parentElement.remove();
                     this.removeItem(id);
@@ -231,6 +231,4 @@ document.addEventListener("DOMContentLoaded", () => {
             ui.getBagButtons();
             ui.cartLogic();
         })
-
-
 })
