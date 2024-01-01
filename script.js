@@ -72,6 +72,8 @@ class UI {
                     Storage.saveCart(cart);
                     // * save cart values
                     this.saveCartValues(cart);
+                    // * display cart item
+                    this.addCartItem(cartItem);
                 })
             }
         });
@@ -88,6 +90,40 @@ class UI {
         cartTotal.innerHTML = parseFloat(tempTotal.toFixed(2));
         cartItems.innerHTML = itemsTotal;
     }
+
+    addCartItem(cartItem) {
+        const li = document.createElement('li');
+        li.classList.add("cart-list-item");
+        li.innerHTML = `
+            <div class="cart-left">
+                <div class="cart-left-image">
+                    <img src="${cartItem.image}" alt="product" />
+                </div>
+                <div class="cart-left-info">
+                    <a class="cart-left-info-title" href="#">${cartItem.title}</a>
+                    <span class="cart-left-info-price">$ ${cartItem.price}</span>
+                </div>
+            </div>
+            <div class="cart-right">
+                <div class="cart-right-quantity">
+                    <button class="quantity-minus" data-id="${cartItem.id}">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <span class="quantity">${cartItem.amount}</span>
+                    <button class="quantity-plus" data-id="${cartItem.id}">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="cart-right-remove">
+                    <button class="cart-remove-btn" data-id="${cartItem.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        cartContent.appendChild(li);
+    }
+
 }
 
 class Storage {
