@@ -7,7 +7,15 @@ const productsDom = document.querySelectorAll(".products-dom");
 
 
 class Products {
-
+    async getProducts() {
+        try {
+            let result = await fetch("https://659306f9bb12970719904f34.mockapi.io/productss")
+            let data = await result.json();
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 class UI {
@@ -17,3 +25,8 @@ class UI {
 class Storage {
 
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const products = new Products();
+    products.getProducts();
+})
