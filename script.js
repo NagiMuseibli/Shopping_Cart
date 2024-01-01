@@ -74,6 +74,8 @@ class UI {
                     this.saveCartValues(cart);
                     // * display cart item
                     this.addCartItem(cartItem);
+                    // * Show the cart
+                    this.showCart();
                 })
             }
         });
@@ -122,6 +124,10 @@ class UI {
             </div>
         `;
         cartContent.appendChild(li);
+    }
+
+    showCart() {
+        cartBtn.click();
     }
 
 }
